@@ -1,5 +1,5 @@
 /*C code By Nguyen Huu Nhan*/
-/*Thuật toán sắp xếp chèn */
+/*Thuật toán sắp xếp nổi bọt */
 #include <stdio.h>
 typedef int keytype;
 typedef float othertype;
