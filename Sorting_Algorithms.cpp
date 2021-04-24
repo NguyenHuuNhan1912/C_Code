@@ -1,4 +1,3 @@
-/*Thuat toan sap xep chon*/
 #include <stdio.h>
 typedef struct{
 	int key;
