@@ -43,7 +43,7 @@ void ATM_Algorithm(int MG[], int result[], int n){
     }
 }
 int countATM(int result[]){
-    int total;
+    int total=0;
     for(int i=0;i<9;i++){
         total += result[i];
     }
