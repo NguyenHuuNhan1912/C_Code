@@ -1,0 +1,82 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<string.h>
+
+//So do vat duoc chon khong vuot qua so luong !!
+typedef struct{
+	char TenDV[20];
+	float GT, TL, DG;
+	int SoLuong, SoDV_DuocChon;
+}DoVat;
+
+DoVat * readFile(float *W, int *n){
+	FILE *f;
+	f = fopen("CaiTui3.txt", "r");
+	fscanf(f,"%f", W);
+	DoVat *dsdv;
+	dsdv = (DoVat*)malloc(sizeof(DoVat));
+	int i=0;
+	while(!feof(f)){
+		fscanf(f, "%f%f%d%[^\n]", &dsdv[i].TL, &dsdv[i].GT, &dsdv[i].SoLuong, &dsdv[i].TenDV);
+		dsdv[i].DG = dsdv[i].GT/dsdv[i].TL;
+		dsdv[i].SoDV_DuocChon = 0;
+		i++;
+		dsdv = (DoVat*)realloc(dsdv, sizeof(DoVat)*(i+1));
+	}
+	*n = i;
+	fclose(f);
+	return dsdv;
+}
+
+void in(DoVat *dsdv, int n, float W){
+	float tongTL=0, tongGT=0;
+	printf("\nPhuong an thu duoc tu ky thuat Tham An\n");
+	printf("|---|---------------------|----------|---------|---------|---------|-----------|\n");
+	printf("|STT|      Ten Do Vat     | So Luong | T.Luong | Gia Tri | Don Gia | Phuong An |\n");
+	printf("|---|---------------------|----------|---------|---------|---------|-----------|\n");
+	for(int i=0; i<n; i++){
+		printf("|%-3d|%-21s|%5d     |%9.2f|%9.2f|%9.2f|%6d     |\n", i+1, dsdv[i].TenDV, dsdv[i].SoLuong, dsdv[i].TL, dsdv[i].GT, dsdv[i].DG, dsdv[i].SoDV_DuocChon);
+		tongTL += dsdv[i].SoDV_DuocChon*dsdv[i].TL;
+		tongGT += dsdv[i].SoDV_DuocChon*dsdv[i].GT;
+	}
+	printf("|---|---------------------|----------|---------|---------|---------|-----------|\n");
+	printf("\nTong trong luong cua ba lo: %-9.2f", W);
+	printf("\nTong gia tri cac do vat duoc chon = %.2f\nTong gia tri = %.2f\n", tongTL, tongGT);
+}
+
+
+void swap(DoVat *a, DoVat *b){
+	DoVat tmp;
+	tmp = *a;
+	*a  = *b;
+	*b  = tmp;
+}
+
+void BubbleSort(DoVat *dsdv, int n){
+	for(int i=0; i<n-1; i++)
+		for(int j=n-1; j>i; j--)
+			if(dsdv[j].DG > dsdv[j-1].DG)
+				swap(&dsdv[j], &dsdv[j-1]);	
+}
+
+void Greedy(DoVat *dsdv, int n, float W){
+	for(int i=0; i<n; i++){
+		dsdv[i].SoDV_DuocChon = W / dsdv[i].TL;
+		if(dsdv[i].SoDV_DuocChon > dsdv[i].SoLuong){
+			dsdv[i].SoDV_DuocChon = dsdv[i].SoLuong;
+		}
+		W = W - dsdv[i].TL*dsdv[i].SoDV_DuocChon;
+	}
+}
+
+int main(){
+	int n;
+	float W;
+	DoVat *dsdv;
+	dsdv = readFile(&W, &n);
+	BubbleSort(dsdv,n);
+	Greedy(dsdv,n,W);
+	in(dsdv,n,W);
+	free(dsdv);
+	return  0;
+}
