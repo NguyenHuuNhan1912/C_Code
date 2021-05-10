@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<string.h>
+
+//Moi loai do vat chi duoc chon 1
+typedef struct{
+	char TenDV[20];
+	float GT, TL, DG;
+	int SoDV_DuocChon;
+}DoVat;
+
+DoVat * readFile(float *W, int *n){
+	FILE *f;
+	f = fopen("CaiTui2.txt", "r");
+	fscanf(f,"%f", W);
+	DoVat *dsdv;
+	dsdv = (DoVat*)malloc(sizeof(DoVat));
+	int i=0;
+	while(!feof(f)){
+		fscanf(f, "%f%f%[^\n]", &dsdv[i].TL, &dsdv[i].GT, &dsdv[i].TenDV);
+		dsdv[i].DG = dsdv[i].GT/dsdv[i].TL;
+		dsdv[i].SoDV_DuocChon = 0;
+		i++;
+		dsdv = (DoVat*)realloc(dsdv, sizeof(DoVat)*(i+1));
+	}
+	*n = i;
+	fclose(f);
+	return dsdv;
+}
+
+void in(DoVat *dsdv, int n, float W){
+	float tongTL=0, tongGT=0;
+	printf("\nPhuong an thu duoc tu ky thuat Tham An\n");
+	printf("|---|---------------------|---------|---------|---------|-----------|\n");
+	printf("|STT|      Ten Do Vat     | T.Luong | Gia Tri | Don Gia | Phuong An |\n");
+	printf("|---|---------------------|---------|---------|---------|-----------|\n");
+	for(int i=0; i<n; i++){
+		printf("|%-3d|%-21s|%9.2f|%9.2f|%9.2f|%6d     |\n", i+1, dsdv[i].TenDV, dsdv[i].TL, dsdv[i].GT, dsdv[i].DG, dsdv[i].SoDV_DuocChon);
+		tongTL += dsdv[i].SoDV_DuocChon*dsdv[i].TL;
+		tongGT += dsdv[i].SoDV_DuocChon*dsdv[i].GT;
+	}
+	printf("|---|---------------------|---------|---------|---------|-----------|\n");
+	printf("\nTong trong luong cua ba lo: %-9.2f", W);
+	printf("\nTong gia tri cac do vat duoc chon = %.2f\nTong gia tri = %.2f\n", tongTL, tongGT);
+}
+
+
+void swap(DoVat *a, DoVat *b){
+	DoVat tmp;
+	tmp = *a;
+	*a  = *b;
+	*b  = tmp;
+}
+
+void BubbleSort(DoVat *dsdv, int n){
+	for(int i=0; i<n-1; i++)
+		for(int j=n-1; j>i; j--)
+			if(dsdv[j].DG > dsdv[j-1].DG)
+				swap(&dsdv[j], &dsdv[j-1]);	
+}
+
+void Greedy(DoVat *dsdv, int n, float W){
+	for(int i=0; i<n; i++){
+		if(W / dsdv[i].TL >= 1){
+			dsdv[i].SoDV_DuocChon = 1;
+			W = W - dsdv[i].SoDV_DuocChon*dsdv[i].TL;
+		}
+	}
+}
+
+int main(){
+	int n;
+	float W;
+	DoVat *dsdv;
+	dsdv = readFile(&W, &n);
+	BubbleSort(dsdv,n);
+	Greedy(dsdv,n,W);
+	in(dsdv,n,W);
+	free(dsdv);
+	return  0;
+}
