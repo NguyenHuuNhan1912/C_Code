@@ -1,3 +1,3 @@
-# <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtfdDOVq7whQvLEze1vggFO2vT_GLKJ5Wz4bIIX1ilE685dthgrI5CXjXfsKrM5Df3x0o&usqp=CAU" width="40" height="40"> C_Code
+# <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSroLoYgtXqpHqlfQ9q5n_USzRyHbJ9uFwmO6CEJtOnLUnDCtbZfUGLhcl_dn_261w_MtU&usqp=CAU" width="30" height="30"> C_Code
 C code By Nguyen Huu Nhan !
 - Thuật toán sắp xếp
