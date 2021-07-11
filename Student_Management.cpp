@@ -177,7 +177,7 @@ int main(){
 		printf("**             1. Nhap thong tin ca nhan va diem so         **\n");
 		printf("**             2. Xuat thong tin vua nhap                   **\n");
 		printf("**             3. Tinh diem TB va xep loai                  **\n");
-        printf("**             4. Xuat thong tin va diem so ra FILE         **\n");
+       	        printf("**             4. Xuat thong tin va diem so ra FILE         **\n");
 		printf("**             5. Thoat chuong trinh                        **\n");
 		printf("**************************************************************\n");
 		printf("\nNhap su lua chon cua ban: "); scanf("%d",&key);
